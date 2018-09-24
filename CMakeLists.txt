@@ -6,8 +6,8 @@ project(Babel)
 	file(GLOB_RECURSE SOURCES_CLIENT RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp")
 
 	#conan
-	include(${CMAKE_BINARY_DIR}/build/conanbuildinfo.cmake)
+	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 	conan_basic_setup()
-	
+
 	add_executable(babel_server ${SOURCES_SERVER})
 	add_executable(babel_client ${SOURCES_CLIENT})
