@@ -34,6 +34,7 @@ bin/
 build/
 CMakeFiles
 CMakeCache.txt
+cmake-build-debug/
 .DS_Store
 .idea/
 .vscode/

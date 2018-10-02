@@ -22,8 +22,9 @@ project(Babel)
 	#fid necessary boost packages
 	find_package(Boost 1.67.0 COMPONENTS system REQUIRED)
 
-	add_executable(babel_server ${SOURCES_SERVER})
-	target_link_libraries(babel_server Threads::Threads)
-	target_link_libraries(babel_server ${Boost_LIBRARIES})
+	#add_executable(babel_server ${SOURCES_SERVER})
+
+	#target_link_libraries(babel_server Threads::Threads)
+	#target_link_libraries(babel_server ${Boost_LIBRARIES})
 
 	#add_executable(babel_client ${SOURCES_CLIENT})
