@@ -37,3 +37,5 @@ CMakeCache.txt
 .DS_Store
 .idea/
 .vscode/
+Makefile
+cmake_install.cmake
