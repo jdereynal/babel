@@ -19,10 +19,11 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
 private:
 	boost::asio::ip::tcp::socket _socket;
 	std::string _username;
+	unsigned short _port;
 	unsigned int _id;
 	char _msg[1024];
 
-	TcpConnection(boost::asio::io_service &ioService, unsigned int id) : _socket(ioService), _username(""), _id(id) {}
+	TcpConnection(boost::asio::io_service &ioService, unsigned int id) : _socket(ioService), _username(""), _id(id), _port(0) {}
 	void writeHandler(const boost::system::error_code &error) {
 		if (error)
 			std::cerr << "Error in async_write : " << std::endl;
@@ -55,11 +56,17 @@ public:
 	void setUsername(const std::string &username) {
 		_username = username;
 	}
+	void setPort(const unsigned short &port) {
+		_port = port;
+	}
 	const std::string &getUsername() const {
 		return _username;
 	}
 	const unsigned int getId() const {
 		return _id;
+	}
+	const unsigned short getPort() const {
+		return _port;
 	}
 };
 

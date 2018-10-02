@@ -48,12 +48,17 @@ private:
 			if (con->getId() != client->getId())
 				con->write("CONTACTS " + getContacts() + "\n");
 	}
+	void changePort(std::vector<std::string> &arr, const boost::shared_ptr<TcpConnection> &client) {
+		unsigned short port = std::stoi(arr[1]);
+		client->setPort(port);
+		client->write("PORT ok\n");
+	}
 	void initCall(const boost::shared_ptr<TcpConnection> &client1, const boost::shared_ptr<TcpConnection> &client2) {
 		auto addr1 = client1->getSocket().remote_endpoint().address().to_string();
 		auto addr2 = client2->getSocket().remote_endpoint().address().to_string();
 
-		client1->write("CALL " + std::to_string(client2->getId()) + " " + addr2 + "\n");
-		client2->write("CALL " + std::to_string(client1->getId()) + " " + addr1 + "\n");
+		client1->write("CALL " + std::to_string(client2->getId()) + " " + addr2 + " " + std::to_string(client2->getPort()) + "\n");
+		client2->write("CALL " + std::to_string(client1->getId()) + " " + addr1 + " " + std::to_string(client1->getPort()) + "\n");
 		_calls.insert(std::make_pair(client1->getId(), client2->getId()));
 	}
 	void callRequest(std::vector<std::string> &arr, const boost::shared_ptr<TcpConnection> &client) {
@@ -109,6 +114,9 @@ private:
 				callRequest(arr, (*it)->getPtr());
 			if (arr[0] == "ENDCALL" && arr.size() > 1 && arr[1] != "")
 				endCall(arr, (*it)->getPtr());
+			if (arr[0] == "PORT" && arr.size() > 1 && arr[1] != "")
+				changePort(arr, (*it)->getPtr());
+
 		}
 		_queue.clear();
 		start_message();
