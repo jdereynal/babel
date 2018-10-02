@@ -19,6 +19,7 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
 private:
 	boost::asio::ip::tcp::socket _socket;
 	std::string _username;
+	bool _status = false;
 	unsigned short _port;
 	unsigned int _id;
 	char _msg[1024];
@@ -30,8 +31,9 @@ private:
 	}
 	void readHandler(const boost::system::error_code &error, boost::shared_ptr<TcpConnection> con, std::vector<Message *> *queue, boost::asio::deadline_timer *timer) {
 		if (error == boost::asio::error::eof) {
-			con = nullptr;
-			delete this;
+			_status = true;
+			timer->expires_at(boost::posix_time::pos_infin);
+			read(con, queue, timer);
 		}
 		if (!error) {
 			queue->push_back(new Message(_msg, con));
@@ -42,6 +44,9 @@ private:
 public:
 	static boost::shared_ptr<TcpConnection> create(boost::asio::io_service &ioService, unsigned int id) {
 		return boost::shared_ptr<TcpConnection>(new TcpConnection(ioService, id));
+	}
+	void close() {
+		_socket.close();
 	}
 	boost::asio::ip::tcp::socket &getSocket() {
 		return _socket;
@@ -67,6 +72,9 @@ public:
 	}
 	const unsigned short getPort() const {
 		return _port;
+	}
+	const bool getStatus() {
+		return _status;
 	}
 };
 

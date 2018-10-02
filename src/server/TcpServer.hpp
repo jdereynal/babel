@@ -100,8 +100,17 @@ private:
 		}
 	}
 	void messageHandler(const boost::system::error_code &error) {
+		int i = 0;
+		for (auto it : _connections) {
+			if (it->getStatus() == true) {
+				it->close();
+				_connections.erase(_connections.begin() + i);
+			}
+			i++;
+		}
 		for (auto it = _queue.begin(); it != _queue.end(); it++) {
 			auto message = (*it)->getMessage();
+			std::cout << "[" << message << "]" << std::endl;
 			std::istringstream iss(message);
 			std::vector<std::string> arr((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
 			if (!arr.size())
@@ -116,14 +125,12 @@ private:
 				endCall(arr, (*it)->getPtr());
 			if (arr[0] == "PORT" && arr.size() > 1 && arr[1] != "")
 				changePort(arr, (*it)->getPtr());
-
 		}
 		_queue.clear();
 		start_message();
 	}
 	const std::string getContacts() const {
 		std::string ret = "";
-
 		for (auto it : _connections) {
 			if (it->getUsername() != "")
 				ret += it->getUsername() + "," + std::to_string(it->getId()) + " ";
