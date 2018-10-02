@@ -33,7 +33,7 @@ project(Babel)
 	target_link_libraries(babel_server Threads::Threads)
 	target_link_libraries(babel_server ${Boost_LIBRARIES})
 
-	# add_executable(babel_client ${SOURCES_CLIENT})
+	add_executable(babel_client ${SOURCES_CLIENT})
 	# set_property(TARGET babel_client PROPERTY POSITION_INDEPENDENT_CODE ON)
 	# target_link_libraries(babel_server Qt5::Core Qt5::Network)
 
