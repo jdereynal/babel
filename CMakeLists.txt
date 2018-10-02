@@ -27,4 +27,4 @@ project(Babel)
 	#target_link_libraries(babel_server Threads::Threads)
 	#target_link_libraries(babel_server ${Boost_LIBRARIES})
 
-	#add_executable(babel_client ${SOURCES_CLIENT})
+	add_executable(babel_client ${SOURCES_CLIENT})
