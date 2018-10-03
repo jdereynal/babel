@@ -32,8 +32,9 @@ project(Babel)
 	add_executable(babel_server ${SOURCES_SERVER})
 	target_link_libraries(babel_server Threads::Threads)
 	target_link_libraries(babel_server ${Boost_LIBRARIES})
-  
+
+	set(CMAKE_AUTOMOC on)
 	add_executable(babel_client ${SOURCES_CLIENT})
-	target_link_libraries(babel_client Qt5::Core Qt5::Network opus)
+	target_link_libraries(babel_client Qt5::Core Qt5::Network opus portaudio jack rt asound Threads::Threads)
 	set_property(TARGET babel_client PROPERTY POSITION_INDEPENDENT_CODE ON)
 

@@ -40,3 +40,4 @@ cmake-build-debug/
 .vscode/
 Makefile
 cmake_install.cmake
+babel_client_autogen
