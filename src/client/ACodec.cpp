@@ -24,7 +24,7 @@ bool ACodec::decoderCreate()
 {
 	int error;
 
-	_decoder = opus_decoder_create(FREQUENCY, CHANNELS, &error);
+	_decoder = opus_decoder_create(FREQUENCY, CHANNEL, &error);
 	if (error != OPUS_OK) {
 		std::cerr << "Decoder couldn't be created" << std::endl;
 		return (false);
@@ -36,7 +36,7 @@ bool ACodec::encoderCreate()
 {
 	int error;
 
-	_encoder = opus_encoder_create(FREQUENCY, CHANNELS, OPUS_APPLICATION_VOIP, &error);
+	_encoder = opus_encoder_create(FREQUENCY, CHANNEL, OPUS_APPLICATION_VOIP, &error);
 	if (error != OPUS_OK) {
 		std::cerr << "Encoder couldn't be created" << std::endl;
 		return (false);

@@ -9,6 +9,8 @@
 #include <iostream>
 #include <zconf.h>
 #include "AAudio.hpp"
+#include "Sound.hpp"
+#include "ACodec.hpp"
 
 int recordCallback(const void *input, void *output, unsigned long frameCount,
 	const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags, void *userData)
@@ -104,8 +106,9 @@ AAudio::AAudio()
 
 	_stream = stream;
 	_portAudioData.maxIndex = totFrame = DURATION * FRAMERATE;
-	samples = totFrame * CHANNELS;
-	bytes = samples * sizeof(SAMPLE);
+	_samples = samples = totFrame * CHANNELS;
+	_bytes = bytes = samples * sizeof(SAMPLE);
+
 	_portAudioData.recorded = (SAMPLE *)malloc(bytes);
 	for (unsigned long i = 0; i < samples; i++)
 		_portAudioData.recorded[i] = 0;
@@ -180,6 +183,7 @@ void AAudio::openInputStream()
 	PaError paErr;
 	PaStreamParameters input;
 
+	_portAudioData.index = 0;
 	input.device = Pa_GetDefaultInputDevice();
 	input.channelCount = CHANNELS;
 	input.sampleFormat = PA_SAMPLE_TYPE;
@@ -193,9 +197,13 @@ void AAudio::openInputStream()
 // Main Example Audio
 // g++ AAudio.cpp IAudio.hpp AAudio.hpp --std=c++17 -lrt -lasound -ljack -lpthread -lportaudio -Wall -Werror -Wextra
 
-/*int main()
+int main()
 {
 	AAudio portAudio;
+	ACodec codec;
+	Sound encoded(nullptr, 10);
+	Sound decoded(nullptr, 10);
+	t_portAudioData portAudioData;
 
 	portAudio.initialize();
 
@@ -204,10 +212,18 @@ void AAudio::openInputStream()
 	portAudio.recordAudio();	//record
 	portAudio.closeStream();    /////////////////////////////
 
+	Sound sound(portAudio.get_portAudioData().recorded, (int)portAudio.get_bytes());
+	portAudioData = portAudio.get_portAudioData();
+
+	encoded = codec.encodeData(sound);
+	decoded = codec.decodeData(encoded);
+	portAudioData.recorded = decoded.getData();
+	portAudio.set_portAudioData(portAudioData);
+
 	portAudio.openOutputStream(); /////////////////////////////
 	portAudio.startStream();
 	portAudio.playAudio();		//play
 	portAudio.closeStream(); /////////////////////////////
 
 	portAudio.terminate();
-}*/
+}
