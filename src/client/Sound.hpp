@@ -17,8 +17,15 @@ class Sound {
 		float *getData();
 		unsigned char *getEncodedData();
 		int getSize();
+		void setEncodedSize(int size) {
+			_encodedSize = size;
+		}
+		int getEncodedSize() {
+			return _encodedSize;
+		}
 	private:
 		int _size;
+		int _encodedSize;
 		float *_clearedData;
 		unsigned char *_encodedData;
 };

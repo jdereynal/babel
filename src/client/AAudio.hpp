@@ -45,7 +45,7 @@ private:
 	unsigned long _samples;
 	unsigned long _bytes;
 	public:
-	const t_portAudioData &get_portAudioData() const
+	t_portAudioData get_portAudioData() const
 	{
 		return _portAudioData;
 	}
@@ -77,7 +77,7 @@ private:
 
 	unsigned long get_bytes() const
 	{
-		return _bytes;
+		return (_bytes / sizeof(SAMPLE));
 	}
 
 	void set_bytes(unsigned long _bytes)

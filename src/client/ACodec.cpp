@@ -48,9 +48,10 @@ Sound ACodec::encodeData(Sound sound)
 {
 	if (_encoder != nullptr) {
 		_encodedSize = opus_encode_float(_encoder, sound.getData(),
-			FRAMESIZE, sound.getEncodedData(), sound.getSize());
+			FRAMESIZE, sound.getEncodedData(), sound.getSize() * sizeof(float));
 		if (_encodedSize < 0)
 			std::cerr << "Encoding of data failed..." << std::endl;
+		sound.setEncodedSize(_encodedSize);
 	}
 	return (sound);
 }
@@ -59,7 +60,7 @@ Sound ACodec::decodeData(Sound sound)
 {
 	if (_decoder != nullptr) {
 		_decodedSize = opus_decode_float(_decoder, sound.getEncodedData(),
-			sound.getSize(), sound.getData(), FRAMESIZE, 0);
+			sound.getEncodedSize() * sizeof(unsigned char), sound.getData(), FRAMESIZE, 0);
 		if (_decodedSize < 0)
 			std::cerr << "Decoding of data failed..." << std::endl;
 	}

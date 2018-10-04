@@ -197,33 +197,34 @@ void AAudio::openInputStream()
 // Main Example Audio
 // g++ AAudio.cpp IAudio.hpp AAudio.hpp --std=c++17 -lrt -lasound -ljack -lpthread -lportaudio -Wall -Werror -Wextra
 
-int main()
-{
-	AAudio portAudio;
-	ACodec codec;
-	Sound encoded(nullptr, 10);
-	Sound decoded(nullptr, 10);
-	t_portAudioData portAudioData;
+// int main()
+// {
+// 	AAudio portAudio;
+// 	AAudio test;
+// 	ACodec codec;
+// 	t_portAudioData portAudioData;
 
-	portAudio.initialize();
+// 	portAudio.initialize();
 
-	portAudio.openInputStream(); ////////////////////////////
-	portAudio.startStream();
-	portAudio.recordAudio();	//record
-	portAudio.closeStream();    /////////////////////////////
+// 	portAudio.openInputStream(); ////////////////////////////
+// 	portAudio.startStream();
+// 	portAudio.recordAudio();	//record
+// 	portAudio.closeStream();    /////////////////////////////
 
-	Sound sound(portAudio.get_portAudioData().recorded, (int)portAudio.get_bytes());
-	portAudioData = portAudio.get_portAudioData();
+// 	Sound sound(portAudio.get_portAudioData().recorded, (unsigned long)portAudio.get_bytes());
+// 	portAudioData = portAudio.get_portAudioData();
 
-	encoded = codec.encodeData(sound);
-	decoded = codec.decodeData(encoded);
-	portAudioData.recorded = decoded.getData();
-	portAudio.set_portAudioData(portAudioData);
+// 	auto encoded = codec.encodeData(sound);
+// 	auto decoded = codec.decodeData(encoded);
+// 	portAudioData.recorded = decoded.getData();
+// 	test.set_portAudioData(portAudioData);
 
-	portAudio.openOutputStream(); /////////////////////////////
-	portAudio.startStream();
-	portAudio.playAudio();		//play
-	portAudio.closeStream(); /////////////////////////////
+// 	test.initialize();
+// 	test.openOutputStream(); /////////////////////////////
+// 	test.startStream();
+// 	test.playAudio();		//play
+// 	test.closeStream(); /////////////////////////////
 
-	portAudio.terminate();
-}
+// 	test.terminate();
+// 	portAudio.terminate();
+// }

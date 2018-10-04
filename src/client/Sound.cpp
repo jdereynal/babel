@@ -10,6 +10,7 @@
 Sound::Sound(float *data, int size) :
 _size(size), _clearedData(data)
 {
+	_encodedData = new unsigned char[_size];
 }
 
 Sound::~Sound()
