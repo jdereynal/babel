@@ -9,10 +9,8 @@
 
 #include <opus/opus.h>
 #include "ICodec.hpp"
+#include "SoundSettings.hpp"
 
-constexpr auto CHANNEL = 2;
-constexpr auto FRAMESIZE = 480;
-constexpr auto FREQUENCY = 48000;
 
 class ACodec : public ICodec {
 	public:

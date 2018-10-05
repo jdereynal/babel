@@ -8,6 +8,7 @@
 #include <portaudio.h>
 #include <iostream>
 #include <zconf.h>
+#include <pthread.h>
 #include "AAudio.hpp"
 #include "Sound.hpp"
 #include "ACodec.hpp"
@@ -197,34 +198,62 @@ void AAudio::openInputStream()
 // Main Example Audio
 // g++ AAudio.cpp IAudio.hpp AAudio.hpp --std=c++17 -lrt -lasound -ljack -lpthread -lportaudio -Wall -Werror -Wextra
 
+void *routine(void *arg) {
+	// AAudio *p = (AAudio *)arg;
+	auto p = new AAudio;
+	ACodec codec;
+	Sound tab[10];
+	// AAudio portAudio;
+	// portAudio.initialize();
+	int i = 0;
+	p->initialize();
+	while (i < 10) {
+		p->openInputStream(); ////////////////////////////
+		p->startStream();
+		while (Pa_IsStreamActive(p->get_stream()));
+		p->closeStream();    /////////////////////////////
+		tab[i] = Sound(p->get_portAudioData().recorded, (unsigned long)p->get_bytes());
+		i++;
+	}
+	i = 0;
+	while (i < 10) {
+		auto d = p->get_portAudioData();
+		d.recorded = tab[i].getData();
+		p->set_portAudioData(d);
+		p->openOutputStream(); /////////////////////////////
+		p->startStream();
+		p->playAudio();		//play
+		p->closeStream(); /////////////////////////////
+		i++;
+	}
+}
+
 // int main()
 // {
-// 	AAudio portAudio;
-// 	AAudio test;
+// 	auto portAudio = new AAudio;
 // 	ACodec codec;
 // 	t_portAudioData portAudioData;
 
-// 	portAudio.initialize();
+// 	// pthread_attr_t attr;
+// 	pthread_t id;
 
-// 	portAudio.openInputStream(); ////////////////////////////
-// 	portAudio.startStream();
-// 	portAudio.recordAudio();	//record
-// 	portAudio.closeStream();    /////////////////////////////
+// 	pthread_create(&id, nullptr, &routine, portAudio);
+// 	int i = 0;
+// 	while (i != 100) {
+// 		std::cout << "yes" << std::endl;
+// 		i++;
+// 	}
+// 	pthread_join(id, NULL);
 
-// 	Sound sound(portAudio.get_portAudioData().recorded, (unsigned long)portAudio.get_bytes());
-// 	portAudioData = portAudio.get_portAudioData();
+// 	// Sound sound(portAudio.get_portAudioData().recorded, (unsigned long)portAudio.get_bytes());
+// 	// portAudioData = portAudio.get_portAudioData();
 
-// 	auto encoded = codec.encodeData(sound);
-// 	auto decoded = codec.decodeData(encoded);
-// 	portAudioData.recorded = decoded.getData();
-// 	test.set_portAudioData(portAudioData);
+// 	// auto encoded = codec.encodeData(sound);
+// 	// auto decoded = codec.decodeData(encoded);
+// 	// portAudioData.recorded = decoded.getData();
+// 	// test.set_portAudioData(portAudioData);
 
-// 	test.initialize();
-// 	test.openOutputStream(); /////////////////////////////
-// 	test.startStream();
-// 	test.playAudio();		//play
-// 	test.closeStream(); /////////////////////////////
 
-// 	test.terminate();
-// 	portAudio.terminate();
+// 	// test.terminate();
+// 	// portAudio.terminate();
 // }

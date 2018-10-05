@@ -14,7 +14,7 @@
 #define CHANNELS (2)
 #define FRAMERATE (48000)
 #define BUFFERFRAME (480)
-#define DURATION (5)
+#define DURATION (1)
 
 #define PA_SAMPLE_TYPE paFloat32
 typedef float SAMPLE;
@@ -44,7 +44,7 @@ private:
 	void *_stream;
 	unsigned long _samples;
 	unsigned long _bytes;
-	public:
+public:
 	t_portAudioData get_portAudioData() const
 	{
 		return _portAudioData;

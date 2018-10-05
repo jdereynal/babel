@@ -5,12 +5,15 @@
 ** Created by victor,
 */
 
+#include <algorithm>
 #include "Sound.hpp"
 
 Sound::Sound(float *data, int size) :
-_size(size), _clearedData(data)
+_size(size)
 {
 	_encodedData = new unsigned char[_size];
+	_clearedData = new float[_size];
+	std::copy_n(data, _size, _clearedData);
 }
 
 Sound::~Sound()

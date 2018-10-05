@@ -12,6 +12,7 @@
 class Sound {
 	public:
 		Sound(float *data, int size);
+		Sound() {};
 		~Sound();
 
 		float *getData();
