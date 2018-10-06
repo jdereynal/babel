@@ -49,7 +49,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">border-image: url(:/smartphone.png)</string>
+       <string notr="true">border-image: url(./img/smartphone.png)</string>
       </property>
       <property name="text">
        <string/>
@@ -190,7 +190,7 @@
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">border-image: url(:/phone-endcall.png)</string>
+            <string notr="true">border-image: url(./img/phone-endcall.png)</string>
            </property>
            <property name="text">
             <string/>
@@ -225,7 +225,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">border-image: url(:/phone-call.png)</string>
+       <string notr="true">border-image: url(./img/phone-call.png)</string>
       </property>
       <property name="text">
        <string/>
