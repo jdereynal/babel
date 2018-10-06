@@ -26,7 +26,7 @@ project(Babel)
 	find_package(Boost 1.67.0 COMPONENTS system REQUIRED)
 
 	#find necessary qt packages
-	find_package(Qt5 COMPONENTS Core Network REQUIRED)
+	find_package(Qt5 COMPONENTS Core Network Widgets REQUIRED)
 	if (Qt5_POSITION_INDEPENDENT_CODE)
 		add_definitions(-fPIC)
 	endif()
@@ -35,7 +35,9 @@ project(Babel)
 	target_link_libraries(babel_server Threads::Threads)
 	target_link_libraries(babel_server ${Boost_LIBRARIES})
 
+	set(CMAKE_AUTOUIC on)
 	set(CMAKE_AUTOMOC on)
+	set(CMAKE_INCLUDE_CURRENT_DIR on)
 	add_executable(babel_client ${SOURCES_CLIENT})
 	target_link_libraries(babel_client ${Boost_LIBRARIES} Qt5::Core Qt5::Network opus portaudio jack rt asound Threads::Threads)
 	set_property(TARGET babel_client PROPERTY POSITION_INDEPENDENT_CODE ON)

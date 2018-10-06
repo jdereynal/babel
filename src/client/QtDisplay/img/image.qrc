@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>phone-endcall.png</file>
+        <file>phone-call.png</file>
+        <file>smartphone.png</file>
+    </qresource>
+</RCC>
