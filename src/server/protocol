@@ -1,0 +1,14 @@
+Protocol:
+
+Client can send :
+USER username //sets own username
+CONTACTS // request contact list
+CALLREQ id // send a call request
+ENDCALL id // end call
+
+Server can send:
+USER ok/ko
+CONTACTS user,id user,id user,id
+CALLREQ id / -1 if no id
+CALL id ip
+ENDCALL id

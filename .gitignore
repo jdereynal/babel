@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+bin/
+build/
+CMakeFiles
+CMakeCache.txt
+cmake-build-debug/
+.DS_Store
+.idea/
+.vscode/
+Makefile
+cmake_install.cmake
+babel_client_autogen
