@@ -91,9 +91,10 @@ private:
 		}
 	}
 	void endCall(std::vector<std::string> &arr, const boost::shared_ptr<TcpConnection> &client) {
-		for (auto pair = _calls.begin(); pair != _calls.end(); pair++) {
+		std::cout << _calls.size() << std::endl;
+		for (auto pair = _calls.begin(); pair != _calls.end(); ++pair) {
 			if ((pair->first == client->getId() && pair->second == std::stoi(arr[1])) || (pair->second == client->getId() && pair->first == std::stoi(arr[1]))) {
-				_calls.erase(pair);
+				pair = _calls.erase(pair);
 				for (auto con : _connections)
 					if (con->getId() == std::stoi(arr[1]))
 						con->write("ENDCALL " + std::to_string(client->getId()) + "\n");

@@ -7,11 +7,13 @@
 
 #pragma once
 
+#include "SoundSettings.hpp"
 #include <vector>
 
 class Sound {
 	public:
 		Sound(float *data, int size);
+		Sound(unsigned char *data, int size, bool encoded);
 		Sound() {};
 		~Sound();
 

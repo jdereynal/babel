@@ -12,10 +12,15 @@
 #include <QtNetwork/QTcpSocket>
 #include <string>
 #include <map>
+#include "../MyAudio.hpp"
+#include "../Udp.hpp"
+#include "../Sound.hpp"
 
 namespace Ui {
 class Display;
 }
+
+Q_DECLARE_METATYPE(Sound)
 
 class Display : public QMainWindow
 {
@@ -43,6 +48,9 @@ private:
 	std::string _port;
 	unsigned int _currentCall;
 	std::map<unsigned int, std::string> _contacts;
+	Udp *_udp = nullptr;
+	MyAudio _record;
+	MyAudio _playback;
 };
 
 #endif // DISPLAY_H

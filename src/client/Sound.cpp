@@ -16,6 +16,16 @@ _size(size)
 	std::copy_n(data, _size, _clearedData);
 }
 
+Sound::Sound(unsigned char *data, int size, bool encoded)
+{
+	if (encoded) {
+		_encodedData = new unsigned char[_size];
+		_clearedData = new float[5 * FRAMESIZE * CHANNEL];
+		std::copy_n(data, size, _encodedData);
+	}
+}
+
+
 Sound::~Sound()
 {
 }
