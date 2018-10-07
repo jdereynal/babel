@@ -28,7 +28,7 @@ void Udp::handleRead() {
 	QHostAddress sender;
 	_socket->readDatagram(buffer.data(), buffer.size(), &sender);
 	std::cout << "Received packet of size " << buffer.size() << std::endl;
-	float *ptr = new float[CHANNEL * FRAMESIZE * 5];
+	float *ptr = new float[CHANNEL * FRAMESIZE * 1];
 	unsigned char *data = (unsigned char *)buffer.data();
 	int size = _codec.decodeData(data, buffer.size(), ptr);
 	std::cout << "Decoded packet size : " << size << std::endl << std::endl;
@@ -40,7 +40,7 @@ void Udp::handleRead() {
 void Udp::sendAudio(void *encoded, int size) {
 	auto buf = QByteArray::fromRawData((char *)encoded, size);
 	// Uncomment to test audio. :(
-	// float *ptr = new float[CHANNEL * FRAMESIZE * 5];
+	// float *ptr = new float[CHANNEL * FRAMESIZE * 1];
 	// unsigned char *data = (unsigned char *)buf.data();
 	// int decodedSize = _codec.decodeData(data, buf.size(), ptr);
 	// for (int i = 0; i < decodedSize; i++)
