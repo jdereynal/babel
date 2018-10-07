@@ -34,6 +34,7 @@ private:
 	}
 	void acceptHandler(boost::shared_ptr<TcpConnection> newConnection, const boost::system::error_code &error) {
 		if (!error) {
+			std::cout << "new connection" << std::endl;
 			_connections.push_back(newConnection);
 			newConnection->write("ID " + std::to_string(newConnection->getId()) + "\n");
 			newConnection->write("CONTACTS " + getContacts() + "\n");
