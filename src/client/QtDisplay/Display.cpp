@@ -6,6 +6,7 @@
 */
 
 #include <QtWidgets/QMessageBox>
+#include <QListWidget>
 #include <sstream>
 #include <iostream>
 #include "Display.h"
@@ -119,10 +120,22 @@ void Display::on_pushButton_deconnexion_clicked()
 	}
 }
 
+void Display::fillContactList()
+{
+    ui->listWidget->clear();
+    for (std::map<std::string, unsigned int>::iterator it = this->_contacts.begin(); it != this->_contacts.end(); ++it) {
+	    ui->listWidget->addItem(QString::number(it->second) + " " + QString(it->second));
+    }
+}
+
 void Display::on_buttunCall_clicked()
 {
 	//lancement appelle
-	ui->stackedWidget->setCurrentIndex(2);
+    QListWidgetItem *item = this->ui->listWidget->currentItem();
+    if (item == nullptr)
+        return ;
+    QMessageBox::information(this, "Appelle", "Vous essayez d'appeler " + item->text() + ".");
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void Display::on_pushButtonQuitCall_clicked()
