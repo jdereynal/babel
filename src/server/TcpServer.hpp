@@ -113,19 +113,26 @@ private:
 			auto message = (*it)->getMessage();
 			std::cout << "[" << message << "]" << std::endl;
 			std::istringstream iss(message);
-			std::vector<std::string> arr((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
-			if (!arr.size())
-				continue;
-			if (arr[0] == "USER" && arr.size() > 1 && arr[1] != "")
-				changeUsername(arr, (*it)->getPtr());
-			if (arr[0] == "CONTACTS")
-				(*it)->getPtr()->write("CONTACTS " + getContacts() + "\n");
-			if (arr[0] == "CALLREQ" && arr.size() > 1 && arr[1] != "")
-				callRequest(arr, (*it)->getPtr());
-			if (arr[0] == "ENDCALL" && arr.size() > 1 && arr[1] != "")
-				endCall(arr, (*it)->getPtr());
-			if (arr[0] == "PORT" && arr.size() > 1 && arr[1] != "")
-				changePort(arr, (*it)->getPtr());
+			std::string tmp;
+			std::vector<std::string> arr;
+			while (std::getline(iss, tmp, '\n'))
+				arr.push_back(tmp);
+			for (auto str : arr) {
+				std::istringstream iss(str);
+				std::vector<std::string> arr((std::istream_iterator<std::string>(iss)), std::istream_iterator<std::string>());
+				if (!arr.size())
+					continue;
+				if (arr[0] == "USER" && arr.size() > 1 && arr[1] != "")
+					changeUsername(arr, (*it)->getPtr());
+				if (arr[0] == "CONTACTS")
+					(*it)->getPtr()->write("CONTACTS " + getContacts() + "\n");
+				if (arr[0] == "CALLREQ" && arr.size() > 1 && arr[1] != "")
+					callRequest(arr, (*it)->getPtr());
+				if (arr[0] == "ENDCALL" && arr.size() > 1 && arr[1] != "")
+					endCall(arr, (*it)->getPtr());
+				if (arr[0] == "PORT" && arr.size() > 1 && arr[1] != "")
+					changePort(arr, (*it)->getPtr());
+			}
 		}
 		_queue.clear();
 		start_message();

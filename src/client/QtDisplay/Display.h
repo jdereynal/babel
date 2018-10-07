@@ -32,12 +32,16 @@ private slots:
 	void on_pushButtonQuitCall_clicked();
 	void connectedHandler();
 	void readHandler();
+	void disconnectedHandler();
 
 private:
 	Ui::Display *ui;
 	QTcpSocket *_socket;
 	unsigned int _id;
-	std::map<std::string, unsigned int> _contacts;
+	std::string _username;
+	std::string _port;
+	unsigned int _currentCall;
+	std::map<unsigned int, std::string> _contacts;
 };
 
 #endif // DISPLAY_H
