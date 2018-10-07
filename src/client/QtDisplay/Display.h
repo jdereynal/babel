@@ -31,6 +31,7 @@ private slots:
 	void on_buttunCall_clicked();
 	void on_pushButtonQuitCall_clicked();
 	void connectedHandler();
+	void fillContactList();
 	void readHandler();
 
 private:
