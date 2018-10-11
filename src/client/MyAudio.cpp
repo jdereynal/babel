@@ -105,8 +105,8 @@ int MyAudio::recordCallback(float *ptr, unsigned long frameCount)
 			_buffer.push_back(0.0f);
 	if (_buffer.size() >= frameCount * CHANNEL * 1) {
 		auto pair = _buffer.array_one();
-		unsigned char *dest = new unsigned char[pair.second];
-		int size = codec.encodeData(pair.first, pair.second, dest);
+		unsigned char *dest = new unsigned char[200];
+		int size = codec.encodeData(pair.first, 200, dest);
 		emit readyAudio(dest, size);
 		_buffer.clear();
 	}

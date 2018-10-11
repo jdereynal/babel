@@ -23,7 +23,8 @@ private:
 	QHostAddress _address;
 	ACodec _codec;
 public:
-	Udp(quint16 port, boost::circular_buffer<float> *buffer, QString sendAddress, quint16 sendPort, QObject *parent = nullptr);
+	Udp(quint16 port, boost::circular_buffer<float> *buffer, QObject *parent = nullptr);
+	Udp(QString sendAddress, quint16 sendPort, QObject *parent = nullptr);
 	virtual ~Udp();
 public slots:
 	void handleRead();

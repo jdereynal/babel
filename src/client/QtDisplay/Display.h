@@ -49,6 +49,8 @@ private:
 	unsigned int _currentCall;
 	std::map<unsigned int, std::string> _contacts;
 	Udp *_udp = nullptr;
+	Udp *_sender;
+	Udp *_receiver;
 	MyAudio _record;
 	MyAudio _playback;
 };

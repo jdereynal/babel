@@ -93,6 +93,7 @@ void Display::readHandler()
 					_socket->write(tmp.c_str());
 					_currentCall = it->first;
 					ui->stackedWidget->setCurrentIndex(2);
+					ui->label_conversation->setText("En conversation avec:\n" + QString::fromStdString(_contacts[_currentCall]));
 				}
 			}
 		}
@@ -102,8 +103,9 @@ void Display::readHandler()
 			on_pushButtonQuitCall_clicked();
 		}
 		if (split[0] == "CALL" && split.size() > 3) {
-			_udp = new Udp(std::stoi(_port), _playback.getBuffer(), QString::fromStdString(split[2]), std::stoi(split[3]));
-			QObject::connect(&_record, SIGNAL(readyAudio(void *, int)), _udp, SLOT(sendAudio(void *, int)));
+			_receiver = new Udp(std::stoi(_port), _playback.getBuffer());
+			_sender = new Udp(QString::fromStdString(split[2]), std::stoi(split[3]));
+			QObject::connect(&_record, SIGNAL(readyAudio(void *, int)), _sender, SLOT(sendAudio(void *, int)));
 			_record.open(MyAudio::INPUT);
 			_record.start();
 			_playback.open(MyAudio::OUTPUT);
@@ -142,7 +144,8 @@ void Display::fillContactList()
 {
 	ui->listWidget->clear();
 	for (auto it = _contacts.begin(); it != _contacts.end(); ++it) {
-		ui->listWidget->addItem(QString::fromStdString(it->second));
+		if (QString::fromStdString(it->second) != ui->input_name->text())
+			ui->listWidget->addItem(QString::fromStdString(it->second));
 	}
 }
 
@@ -160,10 +163,13 @@ void Display::on_buttunCall_clicked()
 		}
 	}
 	ui->stackedWidget->setCurrentIndex(2);
+	ui->label_conversation->setText("En conversation avec:\n" + QString::fromStdString(_contacts[_currentCall]));
 }
 
 void Display::on_pushButtonQuitCall_clicked()
 {
+	_record.stop();
+	_playback.stop();
 	if (_currentCall) {
 		std::string tmp = "ENDCALL " + std::to_string(_currentCall) + "\n";
 		_socket->write(tmp.c_str());

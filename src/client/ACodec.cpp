@@ -41,7 +41,7 @@ bool ACodec::encoderCreate()
 		std::cerr << "Encoder couldn't be created" << std::endl;
 		return (false);
 	}
-	// opus_encoder_ctl(_encoder, OPUS_SET_BITRATE(512000));
+	opus_encoder_ctl(_encoder, OPUS_SET_BITRATE(24000));
 	return (true);
 }
 
@@ -62,7 +62,7 @@ int ACodec::encodeData(float *ptr, int size, unsigned char *dest)
 {
 
 	if (_encoder != nullptr) {
-		_encodedSize = opus_encode_float(_encoder, ptr, FRAMESIZE, dest, size * sizeof(float));
+		_encodedSize = opus_encode_float(_encoder, ptr, FRAMESIZE, dest, size);
 		if (_encodedSize < 0)
 			std::cerr << "Encoding of data failed..." << std::endl;
 	}

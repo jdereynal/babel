@@ -58,6 +58,8 @@ private:
 		auto addr1 = client1->getSocket().remote_endpoint().address().to_string();
 		auto addr2 = client2->getSocket().remote_endpoint().address().to_string();
 
+		std::cout << "CALL " + std::to_string(client2->getId()) + " " + addr2 + " " + std::to_string(client2->getPort()) + "\n";
+		std::cout << "CALL " + std::to_string(client1->getId()) + " " + addr1 + " " + std::to_string(client1->getPort()) + "\n";
 		client1->write("CALL " + std::to_string(client2->getId()) + " " + addr2 + " " + std::to_string(client2->getPort()) + "\n");
 		client2->write("CALL " + std::to_string(client1->getId()) + " " + addr1 + " " + std::to_string(client1->getPort()) + "\n");
 		_calls.insert(std::make_pair(client1->getId(), client2->getId()));
@@ -94,10 +96,11 @@ private:
 		std::cout << _calls.size() << std::endl;
 		for (auto pair = _calls.begin(); pair != _calls.end(); ++pair) {
 			if ((pair->first == client->getId() && pair->second == std::stoi(arr[1])) || (pair->second == client->getId() && pair->first == std::stoi(arr[1]))) {
-				pair = _calls.erase(pair);
+				_calls.erase(pair);
 				for (auto con : _connections)
 					if (con->getId() == std::stoi(arr[1]))
 						con->write("ENDCALL " + std::to_string(client->getId()) + "\n");
+				return ;
 			}
 		}
 	}
